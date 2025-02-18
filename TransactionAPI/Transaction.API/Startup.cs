@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Transaction.Infra.Data;
+
 public class Startup
 {
     public Startup(IConfiguration configuration)
@@ -10,6 +13,9 @@ public class Startup
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+
+        services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseInMemoryDatabase("TransactionDb"));
     }
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
@@ -27,7 +33,7 @@ public class Startup
 
         app.UseRouting();
 
-        app.UseEndpoints(endpoints => 
+        app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
         });
