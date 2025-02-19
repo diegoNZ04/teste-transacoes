@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Transaction.Application.Services;
+using Transaction.Application.Services.Interfaces;
 using Transaction.Infra.Data;
+using Transaction.Infra.Repositories;
+using Transaction.Infra.Repositories.Interfaces;
 
 public class Startup
 {
@@ -16,6 +20,11 @@ public class Startup
 
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseInMemoryDatabase("TransactionDb"));
+
+        services.AddScoped<ITradeRepository, TradeRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ITradeService, TradeService>();
+        services.AddScoped<IUserService, UserService>();
     }
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
