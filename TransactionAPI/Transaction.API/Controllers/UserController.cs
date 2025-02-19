@@ -5,7 +5,7 @@ using Transaction.Application.Services.Interfaces;
 namespace Transaction.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/users")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -29,10 +29,9 @@ namespace Transaction.API.Controllers
         }
 
         [HttpGet("get-all-users")]
-        public async Task<IActionResult> GetAllUsers([FromQuery] int pageNumber, [FromQuery] int pageSize)
+        public async Task<IActionResult> GetAllUsers()
         {
-            var users = await _userService.GetAllUsersAsync(pageNumber, pageSize);
-            return Ok(users);
+            return Ok(await _userService.GetAllUsersAsync());
         }
 
         [HttpGet("get-user-by-id/{id}")]

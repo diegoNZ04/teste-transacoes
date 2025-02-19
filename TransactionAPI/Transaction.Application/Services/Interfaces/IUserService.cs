@@ -7,7 +7,7 @@ namespace Transaction.Application.Services.Interfaces
     {
         Task<CreateNewUserResponse> CreateNewUserAsync(string name, int age);
         Task DeleteUserById(int userId);
-        Task<List<User>> GetAllUsersAsync(int pageNumber, int pageSize);
+        Task<IEnumerable<User>> GetAllUsersAsync();
         Task<User> GetUserByIdAsync(int userId);
     }
 }

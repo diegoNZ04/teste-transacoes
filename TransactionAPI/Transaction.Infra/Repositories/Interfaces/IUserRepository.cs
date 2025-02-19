@@ -6,7 +6,7 @@ namespace Transaction.Infra.Repositories.Interfaces
     {
         Task AddUserAsync(User user);
         Task RemoveUserByIdAsync(int id);
-        Task<List<User>> ListAllUsersAsync(int pageNumber, int pageSize);
+        Task<IEnumerable<User>> ListAllUsersAsync();
         Task<User> FindUserByIdAsync(int id);
     }
 }

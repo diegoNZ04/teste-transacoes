@@ -38,9 +38,9 @@ namespace Transaction.Application.Services
                 await _userRepository.RemoveUserByIdAsync(user.Id);
         }
 
-        public async Task<List<User>> GetAllUsersAsync(int pageNumber, int pageSize)
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            return await _userRepository.ListAllUsersAsync(pageNumber, pageSize);
+            return await _userRepository.ListAllUsersAsync();
         }
 
         public async Task<User> GetUserByIdAsync(int userId)

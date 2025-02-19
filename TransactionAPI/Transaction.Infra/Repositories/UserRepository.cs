@@ -29,12 +29,9 @@ namespace Transaction.Infra.Repositories
             }
         }
 
-        public async Task<List<User>> ListAllUsersAsync(int pageNumber, int pageSize)
+        public async Task<IEnumerable<User>> ListAllUsersAsync()
         {
-            return await _context.Users
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+            return await _context.Users.ToListAsync();
         }
 
         public async Task<User> FindUserByIdAsync(int id)
