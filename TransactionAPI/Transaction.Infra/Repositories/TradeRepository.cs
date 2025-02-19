@@ -18,7 +18,7 @@ namespace Transaction.Infra.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Trade>> GetAllTradesAsync(int pageNumber, int pageSize)
+        public async Task<List<Trade>> ListAllTradesAsync(int pageNumber, int pageSize)
         {
             return await _context.Trades
                .Include(t => t.User)
@@ -27,7 +27,7 @@ namespace Transaction.Infra.Repositories
                .ToListAsync();
         }
 
-        public async Task<Trade> GetTradeByIdAsync(int id)
+        public async Task<Trade> FindUserByIdAsync(int id)
         {
             var trade = await _context.Trades.FindAsync(id);
 

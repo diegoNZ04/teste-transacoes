@@ -18,7 +18,7 @@ namespace Transaction.Infra.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteUserByIdAsync(int id)
+        public async Task RemoveUserByIdAsync(int id)
         {
             var user = await _context.Users.FindAsync(id);
 
@@ -29,7 +29,7 @@ namespace Transaction.Infra.Repositories
             }
         }
 
-        public async Task<List<User>> GetAllUsersAsync(int pageNumber, int pageSize)
+        public async Task<List<User>> ListAllUsersAsync(int pageNumber, int pageSize)
         {
             return await _context.Users
                 .Skip((pageNumber - 1) * pageSize)
@@ -37,7 +37,7 @@ namespace Transaction.Infra.Repositories
                 .ToListAsync();
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
+        public async Task<User> FindUserByIdAsync(int id)
         {
             var user = await _context.Users.FindAsync(id);
 
