@@ -38,14 +38,44 @@ namespace Transaction.Application.Services
                 await _userRepository.RemoveUserByIdAsync(user.Id);
         }
 
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        public async Task<IEnumerable<UserWithTradesResponse>> GetAllUsersAsync()
         {
-            return await _userRepository.ListAllUsersAsync();
+            var users = await _userRepository.ListAllUsersAsync();
+
+            return users.Select(user => new UserWithTradesResponse
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Age = user.Age,
+                Trades = [.. user.Trades.Select(trade => new CreateNewTradeResponse
+                {
+                    Id = trade.Id,
+                    Description = trade.Description,
+                    Amount = trade.Amount,
+                    Type = trade.Type,
+                    UserId = trade.UserId
+                })]
+            }).ToList();
         }
 
-        public async Task<User> GetUserByIdAsync(int userId)
+        public async Task<UserWithTradesResponse> GetUserByIdAsync(int userId)
         {
-            return await _userRepository.FindUserByIdAsync(userId);
+            var user = await _userRepository.FindUserByIdAsync(userId);
+
+            return new UserWithTradesResponse
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Age = user.Age,
+                Trades = user.Trades.Select(trade => new CreateNewTradeResponse
+                {
+                    Id = trade.Id,
+                    Description = trade.Description,
+                    Amount = trade.Amount,
+                    Type = trade.Type,
+                    UserId = trade.UserId
+                }).ToList()
+            };
         }
     }
 }

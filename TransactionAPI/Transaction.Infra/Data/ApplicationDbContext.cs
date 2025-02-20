@@ -15,11 +15,12 @@ namespace Transaction.Infra.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Trade>()
-                 .HasOne(t => t.User)
-                 .WithMany(u => u.Trades)
-                 .HasForeignKey(t => t.UserId)
-                 .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.Trades)
+                .WithOne(e => e.User)
+                .HasForeignKey(e => e.UserId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Transaction.Infra.Repositories.Interfaces
     public interface ITradeRepository
     {
         Task AddTradeAsync(Trade trade);
-        Task<List<Trade>> ListAllTradesAsync(int pageNumber, int pageSize);
-        Task<Trade> FindUserByIdAsync(int id);
+        Task<IEnumerable<Trade>> ListAllTradesAsync();
+        Task<Trade> FindTradeByIdAsync(int id);
     }
 }

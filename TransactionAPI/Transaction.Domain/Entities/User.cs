@@ -16,6 +16,6 @@ namespace Transaction.Domain.Entities
         [Required]
         public int Age { get; set; }
         // Lista de Transações
-        public List<Trade> Trades { get; set; } = [];
+        public ICollection<Trade> Trades { get; set; } = [];
     }
 }

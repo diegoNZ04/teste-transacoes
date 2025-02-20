@@ -18,18 +18,14 @@ namespace Transaction.Infra.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Trade>> ListAllTradesAsync(int pageNumber, int pageSize)
+        public async Task<IEnumerable<Trade>> ListAllTradesAsync()
         {
-            return await _context.Trades
-               .Include(t => t.User)
-               .Skip((pageNumber - 1) * pageSize)
-               .Take(pageSize)
-               .ToListAsync();
+            return await _context.Trades.Include(t => t.User).ToListAsync();
         }
 
-        public async Task<Trade> FindUserByIdAsync(int id)
+        public async Task<Trade> FindTradeByIdAsync(int id)
         {
-            var trade = await _context.Trades.FindAsync(id);
+            var trade = await _context.Trades.Include(t => t.User).FirstOrDefaultAsync(t => t.Id == id);
 
             if (trade == null)
                 throw new Exception("ID não encontrado");

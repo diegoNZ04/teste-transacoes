@@ -35,14 +35,14 @@ namespace Transaction.Application.Services
             };
         }
 
-        public async Task<List<Trade>> GetAllTradesAsync(int pageNumber, int pageSize)
+        public async Task<IEnumerable<Trade>> GetAllTradesAsync()
         {
-            return await _tradeRepository.ListAllTradesAsync(pageNumber, pageSize);
+            return await _tradeRepository.ListAllTradesAsync();
         }
 
         public async Task<Trade> GetTradeByIdAsync(int tradeId)
         {
-            return await _tradeRepository.FindUserByIdAsync(tradeId);
+            return await _tradeRepository.FindTradeByIdAsync(tradeId);
         }
     }
 }

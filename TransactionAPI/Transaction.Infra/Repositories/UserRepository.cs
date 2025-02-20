@@ -31,12 +31,12 @@ namespace Transaction.Infra.Repositories
 
         public async Task<IEnumerable<User>> ListAllUsersAsync()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users.Include(u => u.Trades).ToListAsync();
         }
 
         public async Task<User> FindUserByIdAsync(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users.Include(u => u.Trades).FirstOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
                 throw new Exception("ID não encontrado");
