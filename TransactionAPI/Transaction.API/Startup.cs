@@ -19,7 +19,7 @@ public class Startup
         services.AddSwaggerGen();
 
         services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseInMemoryDatabase("TransactionDb"));
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
         services.AddScoped<ITradeRepository, TradeRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
