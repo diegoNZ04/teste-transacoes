@@ -1,5 +1,4 @@
-using Transaction.Application.Dtos.Responses;
-using Transaction.Domain.Entities;
+using Transaction.Domain.Dtos.Responses;
 
 namespace Transaction.Application.Services.Interfaces
 {
@@ -7,7 +6,7 @@ namespace Transaction.Application.Services.Interfaces
     {
         Task<CreateNewUserResponse> CreateNewUserAsync(string name, int age);
         Task DeleteUserById(int userId);
-        Task<IEnumerable<UserWithTradesResponse>> GetAllUsersAsync();
+        Task<(IEnumerable<UserBalanceResponse> Users, SummaryResponse Summary)> GetAllUsersAsync();
         Task<UserWithTradesResponse> GetUserByIdAsync(int userId);
     }
 }

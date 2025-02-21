@@ -1,3 +1,4 @@
+using Transaction.Domain.Dtos.Responses;
 using Transaction.Domain.Entities;
 
 namespace Transaction.Infra.Repositories.Interfaces
@@ -7,6 +8,6 @@ namespace Transaction.Infra.Repositories.Interfaces
         Task AddUserAsync(User user);
         Task RemoveUserByIdAsync(int id);
         Task<IEnumerable<User>> ListAllUsersAsync();
-        Task<User> FindUserByIdAsync(int id);
+        Task<UserWithTradesResponse> FindUserByIdAsync(int id);
     }
 }

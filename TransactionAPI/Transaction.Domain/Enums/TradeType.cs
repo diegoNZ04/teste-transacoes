@@ -2,7 +2,7 @@ namespace Transaction.Domain.Enums
 {
     public enum TradeType
     {
-        Credit = 0,
-        Debit = 1
+        Revenue = 0,
+        Expense = 1
     }
 }

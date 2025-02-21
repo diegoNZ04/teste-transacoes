@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Transaction.Application.Dtos.Requests;
+using Transaction.Domain.Dtos.Requests;
 using Transaction.Application.Services.Interfaces;
 
 namespace Transaction.API.Controllers
@@ -24,14 +24,15 @@ namespace Transaction.API.Controllers
         [HttpGet("get-all-trades")]
         public async Task<IActionResult> GetAllTrades()
         {
-            return Ok(await _tradeService.GetAllTradesAsync());
+            var response = await _tradeService.GetAllTradesAsync();
+            return Ok(new { response });
         }
 
         [HttpGet("get-trade-by-id")]
         public async Task<IActionResult> GetTradeById(int id)
         {
-            var trade = await _tradeService.GetTradeByIdAsync(id);
-            return Ok(trade);
+            var response = await _tradeService.GetTradeByIdAsync(id);
+            return Ok(response);
         }
     }
 }

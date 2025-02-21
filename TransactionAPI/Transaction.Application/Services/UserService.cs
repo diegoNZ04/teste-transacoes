@@ -1,6 +1,7 @@
-using Transaction.Application.Dtos.Responses;
 using Transaction.Application.Services.Interfaces;
+using Transaction.Domain.Dtos.Responses;
 using Transaction.Domain.Entities;
+using Transaction.Domain.Enums;
 using Transaction.Infra.Repositories.Interfaces;
 
 namespace Transaction.Application.Services
@@ -38,44 +39,40 @@ namespace Transaction.Application.Services
                 await _userRepository.RemoveUserByIdAsync(user.Id);
         }
 
-        public async Task<IEnumerable<UserWithTradesResponse>> GetAllUsersAsync()
+        public async Task<(IEnumerable<UserBalanceResponse> Users, SummaryResponse Summary)> GetAllUsersAsync()
         {
             var users = await _userRepository.ListAllUsersAsync();
 
-            return users.Select(user => new UserWithTradesResponse
+            var usersBalance = users.Select(user => new UserBalanceResponse
             {
                 Id = user.Id,
                 Name = user.Name,
                 Age = user.Age,
-                Trades = [.. user.Trades.Select(trade => new CreateNewTradeResponse
-                {
-                    Id = trade.Id,
-                    Description = trade.Description,
-                    Amount = trade.Amount,
-                    Type = trade.Type,
-                    UserId = trade.UserId
-                })]
+                TotalRevenue = user.Trades.Where(trade => trade.Type == TradeType.Revenue).Sum(trade => trade.Amount),
+                TotalExpense = user.Trades.Where(trade => trade.Type == TradeType.Expense).Sum(trade => trade.Amount),
+                Balance = user.Trades.Where(trade => trade.Type == TradeType.Revenue).Sum(trade => trade.Amount) -
+                          user.Trades.Where(trade => trade.Type == TradeType.Expense).Sum(trade => trade.Amount)
             }).ToList();
+
+            var summary = new SummaryResponse
+            {
+                TotalUsers = usersBalance.Count,
+                TotalRevenue = usersBalance.Sum(u => u.TotalRevenue),
+                TotalExpense = usersBalance.Sum(u => u.TotalExpense),
+                TotalBalance = usersBalance.Sum(u => u.Balance)
+            };
+
+            return (usersBalance, summary);
         }
 
         public async Task<UserWithTradesResponse> GetUserByIdAsync(int userId)
         {
             var user = await _userRepository.FindUserByIdAsync(userId);
 
-            return new UserWithTradesResponse
-            {
-                Id = user.Id,
-                Name = user.Name,
-                Age = user.Age,
-                Trades = user.Trades.Select(trade => new CreateNewTradeResponse
-                {
-                    Id = trade.Id,
-                    Description = trade.Description,
-                    Amount = trade.Amount,
-                    Type = trade.Type,
-                    UserId = trade.UserId
-                }).ToList()
-            };
+            if (user == null)
+                return null;
+
+            return user;
         }
     }
 }

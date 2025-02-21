@@ -1,3 +1,4 @@
+using Transaction.Domain.Dtos.Responses;
 using Transaction.Domain.Entities;
 
 namespace Transaction.Infra.Repositories.Interfaces
@@ -6,6 +7,6 @@ namespace Transaction.Infra.Repositories.Interfaces
     {
         Task AddTradeAsync(Trade trade);
         Task<IEnumerable<Trade>> ListAllTradesAsync();
-        Task<Trade> FindTradeByIdAsync(int id);
+        Task<TradeWithUserIdResponse> FindTradeByIdAsync(int id);
     }
 }

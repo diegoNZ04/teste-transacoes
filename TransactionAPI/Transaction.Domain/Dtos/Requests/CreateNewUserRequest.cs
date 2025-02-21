@@ -1,4 +1,4 @@
-namespace Transaction.Application.Dtos.Requests
+namespace Transaction.Domain.Dtos.Requests
 {
     public class CreateNewUserRequest
     {

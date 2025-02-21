@@ -1,4 +1,4 @@
-using Transaction.Application.Dtos.Responses;
+using Transaction.Domain.Dtos.Responses;
 using Transaction.Application.Services.Interfaces;
 using Transaction.Domain.Entities;
 using Transaction.Domain.Enums;
@@ -35,14 +35,30 @@ namespace Transaction.Application.Services
             };
         }
 
-        public async Task<IEnumerable<Trade>> GetAllTradesAsync()
+        public async Task<IEnumerable<TradeWithUserIdResponse>> GetAllTradesAsync()
         {
-            return await _tradeRepository.ListAllTradesAsync();
+            var trades = await _tradeRepository.ListAllTradesAsync();
+
+            var tradesFormat = trades.Select(trade => new TradeWithUserIdResponse
+            {
+                Id = trade.Id,
+                Description = trade.Description,
+                Amount = trade.Amount,
+                Type = trade.Type,
+                UserId = trade.UserId
+            }).ToList();
+
+            return tradesFormat;
         }
 
-        public async Task<Trade> GetTradeByIdAsync(int tradeId)
+        public async Task<TradeWithUserIdResponse> GetTradeByIdAsync(int tradeId)
         {
-            return await _tradeRepository.FindTradeByIdAsync(tradeId);
+            var trade = await _tradeRepository.FindTradeByIdAsync(tradeId);
+
+            if (trade == null)
+                return null;
+
+            return trade;
         }
     }
 }

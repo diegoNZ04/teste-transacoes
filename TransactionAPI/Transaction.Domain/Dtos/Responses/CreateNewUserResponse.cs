@@ -1,4 +1,4 @@
-namespace Transaction.Application.Dtos.Responses
+namespace Transaction.Domain.Dtos.Responses
 {
     public class CreateNewUserResponse
     {

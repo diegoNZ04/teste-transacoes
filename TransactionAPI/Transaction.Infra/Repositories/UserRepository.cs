@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Transaction.Domain.Dtos.Responses;
 using Transaction.Domain.Entities;
 using Transaction.Infra.Data;
 using Transaction.Infra.Repositories.Interfaces;
@@ -34,12 +35,30 @@ namespace Transaction.Infra.Repositories
             return await _context.Users.Include(u => u.Trades).ToListAsync();
         }
 
-        public async Task<User> FindUserByIdAsync(int id)
+        public async Task<UserWithTradesResponse> FindUserByIdAsync(int id)
         {
-            var user = await _context.Users.Include(u => u.Trades).FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _context.Users
+                .Include(u => u.Trades)
+                .Where(u => u.Id == id)
+                .Select(u => new UserWithTradesResponse
+                {
+                    Id = u.Id,
+                    Name = u.Name,
+                    Age = u.Age,
+                    Trades = u.Trades.Select(t => new CreateNewTradeResponse
+                    {
+                        Id = t.Id,
+                        Description = t.Description,
+                        Amount = t.Amount,
+                        Type = t.Type,
+                        UserId = t.UserId
+                    }).ToList()
+                }).FirstOrDefaultAsync();
 
             if (user == null)
-                throw new Exception("ID não encontrado");
+            {
+                throw new Exception("User Not Found.");
+            }
 
             return user;
         }

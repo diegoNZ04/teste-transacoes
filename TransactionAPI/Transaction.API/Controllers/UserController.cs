@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Transaction.Application.Dtos.Requests;
 using Transaction.Application.Services.Interfaces;
+using Transaction.Domain.Dtos.Requests;
+using Transaction.Domain.Dtos.Responses;
 
 namespace Transaction.API.Controllers
 {
@@ -29,16 +30,17 @@ namespace Transaction.API.Controllers
         }
 
         [HttpGet("get-all-users")]
-        public async Task<IActionResult> GetAllUsers()
+        public async Task<ActionResult> GetAllUsers()
         {
-            return Ok(await _userService.GetAllUsersAsync());
+            var (users, summary) = await _userService.GetAllUsersAsync();
+            return Ok(new { users, summary });
         }
 
         [HttpGet("get-user-by-id/{id}")]
         public async Task<IActionResult> GetUserById(int id)
         {
-            var user = await _userService.GetUserByIdAsync(id);
-            return Ok(user);
+            var response = await _userService.GetUserByIdAsync(id);
+            return Ok(response);
         }
     }
 }

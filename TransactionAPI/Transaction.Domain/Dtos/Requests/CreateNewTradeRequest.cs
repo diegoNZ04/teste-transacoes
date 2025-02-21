@@ -1,10 +1,9 @@
 using Transaction.Domain.Enums;
 
-namespace Transaction.Application.Dtos.Responses
+namespace Transaction.Domain.Dtos.Requests
 {
-    public class CreateNewTradeResponse
+    public class CreateNewTradeRequest
     {
-        public int Id { get; set; }
         public string Description { get; set; } = string.Empty;
         public decimal Amount { get; set; }
         public TradeType Type { get; set; }
