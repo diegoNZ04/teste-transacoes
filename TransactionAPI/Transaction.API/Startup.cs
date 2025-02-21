@@ -1,4 +1,6 @@
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Transaction.Application.Services;
 using Transaction.Application.Services.Interfaces;
 using Transaction.Infra.Data;
@@ -16,7 +18,24 @@ public class Startup
     {
         services.AddControllers();
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+        services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Version = "v1",
+                Title = "Transaction API",
+                Description = "An ASP.NET Core WebAPI for maning users and transactions",
+                Contact = new OpenApiContact
+                {
+                    Name = "Diego Amorim",
+                    Email = "diegoamorim03152004@gmail.com"
+                },
+            });
+            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+        });
+
+
 
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
